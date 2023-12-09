@@ -127,9 +127,24 @@ def test(model, test_loader):
             test_accuracy.append(((TP+TN)/(TP+FP+TN+FN))*100)
 
         print(f"TP: {TP}, FP: {FP}, TN: {TN}, FN: {FN}")
-        print(f"Final test accuracy: {((TP+TN)/(TP+FP+TN+FN))*100}%")
+        # print(f"Final test accuracy: {((TP+TN)/(TP+FP+TN+FN))*100}%")
 
-    return test_accuracy
+    return test_accuracy, TP, FP, TN, FN
+
+def calculate_metrics(TP, FP, TN, FN):
+    # Accuracy
+    accuracy = (TP + TN) / (TP + FP + TN + FP)
+
+    # Precision
+    precision = TP / (TP + FP) if (TP + FP) > 0 else 0.0
+
+    # Recall (Sensitivity)
+    recall = TP / (TP + FN) if (TP + FN) > 0 else 0.0
+
+    # F1 Score
+    f1_score = 2 * (precision * recall) / (precision + recall) if (precision + recall) > 0 else 0.0
+
+    return accuracy, precision, recall, f1_score
 
 def plotLoss(training_loss):
     # Plot training loss
@@ -162,7 +177,7 @@ if __name__ == "__main__":
     # Hyperparameters
     batch_size = 50
     learning_rate = 0.01
-    epochs = 10
+    epochs = 20
 
     # Setup trainload and test_loader
     train_loader, test_loader = preprocessData(batch_size)
@@ -174,7 +189,11 @@ if __name__ == "__main__":
     plotLoss(loss)
 
     # Test the model
-    accuracy = test(trainedModel, test_loader)
+    accuracy, TP, FP, TN, FN = test(trainedModel, test_loader)
 
     # Plot Accuracy
     plotAccuracy(accuracy)
+
+    # Calculate Metrics
+    accuracy, precision, recall, f1_score = calculate_metrics(TP, FP, TN, FN)
+    print(f"\nAccuracy: {np.round(accuracy, 2)*100}%")
