@@ -130,11 +130,11 @@ class ResNet(nn.Module):  # ResNet50 = [3, 4, 6, 3]
 
         return nn.Sequential(*layers)  # * --> will unpack list so PyTorch knows each layers come after another
 
-# def ResNet50(img_channels=3, num_classes=2):
-#     return(ResNet(block, [3,4,6,3], img_channels, num_classes))
+def ResNet50(img_channels=3, num_classes=2):
+    return(ResNet(block, [3,4,6,3], img_channels, num_classes))
 
-# def ResNet101(img_channels=3, num_classes=2):
-#     return(ResNet(block, [3,4,23,3], img_channels, num_classes))
+def ResNet101(img_channels=3, num_classes=2):
+    return(ResNet(block, [3,4,23,3], img_channels, num_classes))
 
-# def ResNet152(img_channels=3, num_classes=2):
-#     return(ResNet(block, [3,8,36,3], img_channels, num_classes))
+def ResNet152(img_channels=3, num_classes=2):
+    return(ResNet(block, [3,8,36,3], img_channels, num_classes))

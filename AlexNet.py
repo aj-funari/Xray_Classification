@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-# from torch.utils import _log_api_usage_once
 
 class AlexNet(nn.Module):
     def __init__(self, num_classes: int = 2, dropout: float = 0.5) -> None:
